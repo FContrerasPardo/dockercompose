@@ -1,0 +1,22 @@
+version: '3'
+services:  
+  # Servicio de la base de datos MongoDB
+  db_mongodb:
+    image: mongo:latest # Utilizamos la imagen oficial de MongoDB desde Docker Hub
+    ports:
+      - "27017:27017" # Mapeo del puerto del host al puerto del contenedor
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: fercho # Nombre de usuario de MongoDB
+      MONGO_INITDB_ROOT_PASSWORD: unir2023 # Contraseña de usuario de MongoDB
+      MONGO_INITDB_DATABASE: school # nombre de la bd que se va crear en el cluster
+    volumes:
+      - mongo-data:/data/db # Volumen para persistir los datos de la base de datos
+    networks:
+      - mi-red # Asignacion de red
+    
+volumes:
+  mongo-data: # Volumen para la base de datos MongoDB
+
+networks:
+  mi-red: # Definición de la red
+    driver: bridge # Tipo de driver de red (puede ser bridge, overlay, etc.)
