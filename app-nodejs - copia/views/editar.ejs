@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Estudiante</title>
+</head>
+<body>
+  <h1>Editar Estudiante</h1>
+  <form action="/estudiantes/<%= estudiante._id %>?_method=PUT" method="post">
+    <input type="text" name="nombre" placeholder="Nombre" value="<%= estudiante.nombre %>" required>
+    <input type="number" name="edad" placeholder="Edad" value="<%= estudiante.edad %>" required>
+    <input type="text" name="grado" placeholder="Grado" value="<%= estudiante.grado %>" required>
+    <button type="submit">Actualizar</button>
+  </form>
+  <a href="/">Cancelar</a>
+</body>
+</html>

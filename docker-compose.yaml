@@ -1,22 +1,32 @@
 version: '3'
 services:  
-  # Servicio de la base de datos MongoDB
-  db_mongodb:
-    image: mongo:latest # Utilizamos la imagen oficial de MongoDB desde Docker Hub
+  # Este servicio configura un contenedor para la  aplicación Node.js
+  web-app:
+    build:
+      context: ./app-nodejs # Ruta al directorio de la aplicación Node.js
+      dockerfile: Dockerfile # Nombre del archivo Dockerfile para construir la imagen
     ports:
-      - "27017:27017" # Mapeo del puerto del host al puerto del contenedor
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: fercho # Nombre de usuario de MongoDB
-      MONGO_INITDB_ROOT_PASSWORD: unir2023 # Contraseña de usuario de MongoDB
-      MONGO_INITDB_DATABASE: school # nombre de la bd que se va crear en el cluster
-    volumes:
-      - mongo-data:/data/db # Volumen para persistir los datos de la base de datos
+      - "3000:3000" # Mapeo del puerto del host al puerto del contenedor
+    depends_on:
+      - db_mongodb # Dependencia del servicio de MongoDB
     networks:
       - mi-red # Asignacion de red
+  # Este servicio configura un contenedor MongoDB utilizando la imagen más reciente de MongoDB.
+  db_mongodb:
+    image: mongo:latest # Selecciona la última versión de la imagen de MongoDB.
+    ports:
+      - "27017:27017" # Mapea el puerto 27017 del contenedor al puerto 27017 del host.
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: fercho # Establece el nombre de usuario del administrador de MongoDB.
+      MONGO_INITDB_ROOT_PASSWORD: unir2023 # Establece la contraseña para el usuario administrador de MongoDB.
+      MONGO_INITDB_DATABASE: school # Crea una base de datos inicial llamada 'school'.
+    volumes:
+      - mongo-data:/data/db # Asigna un volumen para mantener los datos de MongoDB persistentes.
+    networks:
+      - mi-red # Conecta el contenedor a una red personalizada llamada 'mi-red'.
     
 volumes:
-  mongo-data: # Volumen para la base de datos MongoDB
+  mongo-data: # Define un volumen llamado 'mongo-data' para almacenar los datos de MongoDB.
 
 networks:
-  mi-red: # Definición de la red
-    driver: bridge # Tipo de driver de red (puede ser bridge, overlay, etc.)
+  mi-red: # Define una red personalizada llamada 'mi-red' con el controlador de red por defecto (bridge).
